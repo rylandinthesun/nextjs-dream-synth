@@ -128,7 +128,7 @@ const Synth = () => {
 			<Head>
 				<title>Enjoy 😊</title>
 			</Head>
-			<h3 className={synthStyles.title}>Use your keyboard or mouse to play!</h3>
+			<h3 className={synthStyles.title}>Use your keyboard, finger(s) or mouse to play!</h3>
 			<div className={synthStyles.container}>
 				<div className={synthStyles.whitenote} onClick={() => noteDown('C4')}>
 					a
