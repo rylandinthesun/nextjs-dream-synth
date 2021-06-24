@@ -134,7 +134,9 @@ const Synth = () => {
 		}
 	}
 
-	window.addEventListener('keydown', playNote);
+	if (process.browser) {
+		window.addEventListener('keydown', playNote);
+	}
 
 	return (
 		<div>
