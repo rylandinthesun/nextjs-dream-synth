@@ -11,7 +11,7 @@ export default function Home () {
 
 			<h1 className={homeStyles.title}>Welcome to Dream Synth</h1>
 			<div className={homeStyles.btnGroup}>
-				<Link href="/synth">Let's Play</Link>
+				<Link href="/synth">Let&apos;s Play</Link>
 			</div>
 		</div>
 	);
