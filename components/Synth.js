@@ -36,8 +36,6 @@ const Synth = () => {
 		setSynth(synthType);
 	}, []);
 
-	console.log(synth);
-
 	function noteDown (note) {
 		try {
 			synth.triggerAttackRelease(`${note}`, '16n');
