@@ -1,33 +1,49 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import * as Tone from 'tone';
 import synthStyles from '../styles/Synth.module.css';
 
 const Synth = () => {
-	const synth = new Tone.PolySynth(Tone.Synth, {
-		oscillator : {
-			type : 'triangle8'
-		},
-		envelope   : {
-			attack  : 2,
-			decay   : 1,
-			sustain : 0.4,
-			release : 4
-		}
-	}).toDestination();
+	const [
+		synth,
+		setSynth
+	] = useState(null);
 
-	const reverb = new Tone.Reverb({
-		decay : 15,
-		wet   : 0.6
-	}).toDestination();
-	const chorus = new Tone.Chorus(6, 4, 0.2).toDestination();
-	const comp = new Tone.Compressor(-30, 1);
-	const pingPong = new Tone.PingPongDelay('4n', 0.3).toDestination();
+	useEffect(() => {
+		const synthType = new Tone.PolySynth(Tone.Synth, {
+			oscillator : {
+				type : 'triangle8'
+			},
+			envelope   : {
+				attack  : 2,
+				decay   : 1,
+				sustain : 0.4,
+				release : 4
+			}
+		}).toDestination();
 
-	synth.fan(comp, chorus, pingPong, reverb);
-	synth.volume.value = -6;
+		const reverb = new Tone.Reverb({
+			decay : 15,
+			wet   : 0.6
+		}).toDestination();
+		const chorus = new Tone.Chorus(6, 4, 0.2).toDestination();
+		const comp = new Tone.Compressor(-30, 1);
+		const pingPong = new Tone.PingPongDelay('4n', 0.3).toDestination();
+
+		synthType.fan(comp, chorus, pingPong, reverb);
+		synthType.volume.value = -6;
+
+		setSynth(synthType);
+	}, []);
+
+	console.log(synth);
 
 	function noteDown (note) {
-		synth.triggerAttackRelease(`${note}`, '16n');
+		try {
+			synth.triggerAttackRelease(`${note}`, '16n');
+		} catch (e) {
+			return;
+		}
 	}
 
 	function playNote (e) {
@@ -118,10 +134,7 @@ const Synth = () => {
 		}
 	}
 
-	window.addEventListener('keydown', (e) => {
-		e.preventDefault();
-		playNote(e);
-	});
+	window.addEventListener('keydown', playNote);
 
 	return (
 		<div>
