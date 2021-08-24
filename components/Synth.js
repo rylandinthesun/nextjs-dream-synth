@@ -10,6 +10,10 @@ const Synth = () => {
 	] = useState(null);
 
 	useEffect(() => {
+		getSynth();
+	}, []);
+
+	const getSynth = () => {
 		const synthType = new Tone.PolySynth(Tone.Synth, {
 			oscillator : {
 				type : 'triangle8'
@@ -22,19 +26,18 @@ const Synth = () => {
 			}
 		}).toDestination();
 
+		const comp = new Tone.Compressor(-30, 1);
 		const reverb = new Tone.Reverb({
 			decay : 15,
 			wet   : 0.6
 		}).toDestination();
 		const chorus = new Tone.Chorus(6, 4, 0.2).toDestination();
-		const comp = new Tone.Compressor(-30, 1);
+
 		const pingPong = new Tone.PingPongDelay('4n', 0.3).toDestination();
-
-		synthType.fan(comp, chorus, pingPong, reverb);
-		synthType.volume.value = -6;
-
+		synthType.fan(comp, reverb, chorus, pingPong);
+		synthType.volume.value = -4;
 		setSynth(synthType);
-	}, []);
+	};
 
 	function noteDown (note) {
 		try {
